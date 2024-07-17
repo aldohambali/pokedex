@@ -71,3 +71,19 @@ export const getFilterPokemon = (currentState = []) => new Promise(resolve => {
         })
        .catch((err) => console.log(err));
  })
+
+ export const getFilterDetailPokemon = (id,currentState = []) => new Promise(resolve => {
+   axiosInstance
+      .get( BASE_URL + 'type/'+id)
+      .then(({data}) => {
+           console.log('data filter pokemon : ',data)
+
+           const snippet = data.pokemon.map(post => ({
+           url: post.pokemon.url,
+           name: post.pokemon.name,
+           }));
+           const newData = currentState.concat(snippet)
+           resolve(newData.filter(data => data))
+       })
+      .catch((err) => console.log(err));
+})

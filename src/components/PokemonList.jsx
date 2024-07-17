@@ -39,15 +39,19 @@ export default ({name, url}) => {
 
             <Col sm={12}>
                <Link to={`/detail/${id}`}>
-                  <img style={{width: "100%"}} src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`} role="presentation"/>
-
+                  <img style={{width: "100%"}} src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`} 
+                     onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src=`https://dummyimage.com/400x400/ffffff/000&text=${name}`;
+                     }}     
+                  />
                    
                </Link>
             </Col>
             <Col sm={12}>         
                <div>
                   <Link to={`/detail/${id}`} className="btn btn-outline-secondary w-100">
-                    <strong>{name}</strong>
+                    <strong className="text-uppercase">{name}</strong>
                   </Link>
 
                </div>

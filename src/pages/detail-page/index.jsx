@@ -27,10 +27,8 @@ class DetailPage extends Component {
     //const {content, featured_image, ga_type, title, author, read_time, date_gmt} = this.props;
 
     const {base_experience,name, weight, height, moves, sprites , stats, types} =  this.props.detail.detail;
-    console.log('render dataDetail : ',this.props.detail.detail)
-    console.log('sprites : ',sprites)
-    console.log('stats : ',stats)
-    console.log('types : ',types)
+
+    const loading=this.props.detail.loading
 
     const generatePokemonTypes = (types) => {
       const parts = types.type.url.split('/');
@@ -44,48 +42,76 @@ class DetailPage extends Component {
 
 
       <div className="container pt-3 pt-md-4 pb-5 mb-5">
- 
+      {
+        !loading? 
+        (
+        <>
         <div className='py-2'>
-          <Link to="/" className='btn bg-white border border-1 px-4 mb-3'>Back</Link>
+          <Link to={-1} className='btn bg-white border border-1 px-4 mb-3'>Back</Link>
         </div>
         <div className='row'>
           <div className='col-12'>
             <div className='card text-center mb-3 shadow-sm'>
-                <h1 className='py-2'>{name}</h1>
+                <h1 className='py-2 text-uppercase'>{name}</h1>
               </div>
           </div>
           <div className='col-12 col-md-4'>
 
-              <div className='card mb-3 shadow-sm'>
-                <div className='row'>
-                  <div className='col-6'>
-                    <img className='img-fluid' src={sprites?.front_default} />
+              <div className='card mb-3 pb-3 shadow-sm'>
+                <div className='row row-cols-auto justify-content-center'>
+                  <div className='col-12 text-center'>
+                    <img style={{width:"100%",maxWidth:"250px"}} src={sprites?.front_default} />
+                    <br/><small className="fst-italic">Front Default</small>
+
                   </div>
-                  <div className='col-6'>
-                    <img className='img-fluid' src={sprites?.back_default} />
-                  </div>
+                  {
+                    sprites?.front_default &&
+                    <div className='col text-center'>
+                      <img className='img-fluid' src={sprites?.front_default} />
+                      <br/><small className="fst-italic">Front Default</small>
+                    </div>
+                  }
+                  {
+                    sprites?.back_default &&
+                    <div className='col text-center'>
+                      <img className='img-fluid' src={sprites?.back_default} />
+                      <br/><small className="fst-italic">Back Default</small>
+                    </div>
+                  }   
+
+                  {
+                    sprites?.front_female &&
+                    <div className='col text-center'>
+                      <img className='img-fluid' src={sprites?.front_female} />
+                      <br/><small className="fst-italic">Front Female</small>
+                    </div>
+                  }    
+                  {
+                    sprites?.back_female &&
+                    <div className='col text-center'>
+                      <img className='img-fluid' src={sprites?.back_female} />
+                      <br/><small className="fst-italic">Front Female</small>
+                    </div>
+                  }                                   
+
+                  {
+                    sprites?.front_shiny &&
+                    <div className='col text-center'>
+                      <img className='img-fluid' src={sprites?.front_shiny} />
+                      <br/><small className="fst-italic">Front Shiny</small>
+                    </div>
+                  }    
+                  {
+                    sprites?.back_shiny_female &&
+                    <div className='col text-center'>
+                      <img className='img-fluid' src={sprites?.back_shiny_female} />
+                      <br/><small className="fst-italic">Front shiny</small>
+                    </div>
+                  }   
+
                 </div>
               </div>
 
-              <div className='card mb-3 shadow-sm'>
-                <table className='table'>
-                  <tr>
-                    <th>Weight</th>
-                    <td>:</td>
-                    <td>{weight} lbs</td>
-                  </tr>
-                  <tr>
-                    <th>Height</th>
-                    <td>:</td>
-                    <td>{height}"</td>
-                  </tr>
-                  <tr>
-                    <th>Base Experience</th>
-                    <td>:</td>
-                    <td>{base_experience} Exp</td>
-                  </tr>
-                </table>
-              </div>
 
           </div>
           <div className='col-12 col-md-8'>
@@ -103,6 +129,29 @@ class DetailPage extends Component {
               </div>
 
             </div>
+
+            <div className='card mb-3 shadow-sm'>
+                <table className='table my-2 table-borderless'>
+                  <tbody>
+                  <tr>
+                    <th width="200px">Weight</th>
+                    <td width="10px">:</td>
+                    <td>{weight} lbs</td>
+                  </tr>
+                  <tr>
+                    <th>Height</th>
+                    <td>:</td>
+                    <td>{height}"</td>
+                  </tr>
+                  <tr>
+                    <th>Base Experience</th>
+                    <td>:</td>
+                    <td>{base_experience} Exp</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            
 
             <div className='card mb-3 shadow-sm container'>
 
@@ -126,7 +175,7 @@ class DetailPage extends Component {
               {
                   moves.map((data, index) => ( 
                     <div className='py-2 col'>
-                      <span class="badge rounded-pill bg-light text-dark">{data.move.name}</span>
+                      <span className="badge rounded-pill bg-light text-dark">{data.move.name}</span>
                     </div>
                   ))
               }  
@@ -134,8 +183,17 @@ class DetailPage extends Component {
             </div>
           </div>
         </div>
-
-           
+        </>
+        ) : 
+        <>
+          <div className="text-center py-5 my-5">
+            <div className="spinner-border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <h3 className='mt-3'>loading Detail..</h3>    
+          </div> 
+        </>
+      }
       </div>
     )
   }
